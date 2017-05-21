@@ -22,6 +22,9 @@
 #define NOTE_GS 11
 
 #define NOTE_NONE 0xff
+#define SEQUENCER_ENDED 0xff
+#define SEQUENCER_RUNNING 0
+#define SEQUENCER_RESTARTED 1
 
 typedef uint8_t note_t;
 

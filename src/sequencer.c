@@ -41,3 +41,18 @@ note_t *sequencer_get_current_note(sequencer_t *sequencer) {
     return &(sequencer->note_array[sequencer->step_pointer]);
 }
 
+uint8_t sequencer_clock(sequencer_t *sequencer) {
+    sequencer->step_pointer++;
+
+    if (PATTERN_MAXLENGTH == sequencer->step_pointer) {
+        sequencer->step_pointer = 0;
+        return SEQUENCER_RESTARTED;
+    }
+
+    if ((PATTERN_MAXLENGTH - 1) == sequencer->step_pointer) {
+        return SEQUENCER_ENDED;
+    }
+        
+    return SEQUENCER_RUNNING;
+}
+
