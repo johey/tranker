@@ -19,11 +19,12 @@ note_t note_name_func(char *name) {
 }
 
 sequencer_t *sequencer_init() {
+    uint8_t i;
     sequencer_t *sequencer = (sequencer_t *)malloc(sizeof(sequencer_t));
     sequencer->length = PATTERN_MAXLENGTH;
     sequencer->step_pointer = 0;
 
-    for (int i = 0; i < PATTERN_MAXLENGTH; i++)
+    for (i = 0; i < PATTERN_MAXLENGTH; i++)
         sequencer->note_array[i] = NOTE_NONE;
 
     return sequencer;

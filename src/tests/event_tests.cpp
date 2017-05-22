@@ -1,7 +1,7 @@
 #include "../tranker.c"
 
 TEST(EventList, AddTwoElements) {
-	int event_counter = 0;
+	uint8_t event_counter = 0;
 	event_t *g_events = (event_t *)malloc(10 * sizeof(event_t));
 
 	event_t my_event;
