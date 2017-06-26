@@ -1,0 +1,24 @@
+Freely inspired by Ableton Live.
+
+Live View:
+
+* Matrix grid with x axis representing channels and y axis representing patterns. 
+* One can trigger raws or cells.
+For each column exactly none or one cell can be played at a time. Patterns can be one shot or looping.
+
+Selected pattern is shown on screen 
+
+Arrangement View:
+
+Screen split into top and bottom. Top view: Horizontal timeline with channels arranged vertically. 
+Patterns can be inserted anywhere.  It is up to the user to put them on compatible channels.
+Bottom view: Channels arranged side by side, with realtime playback visualisation. Inline pattern editing
+is supported.
+
+Instrument Editor:
+
+Custom code for different sound chips, possibly with graphical envelope and waveform editors.
+Values are entered holding shift. 
+
+
+
