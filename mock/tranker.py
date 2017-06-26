@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from font import small
+import midi
 
 
 SCALE=3
@@ -19,8 +20,17 @@ screen = pygame.Surface((SCREEN_X, SCREEN_Y))
 screen.fill((255, 255, 255))
 #for i in range(1024):
 #  screen.set_at((i%256, i%192), (255, 255, 255))
-screen.blit(small.print("I01 A A# B C D D# E 4 F F# G G#8"), (100, 100))
-#screen.blit(small.font_image, (10, 3))
+
+def channel(num, length):
+  for i in range(length):
+    print(i)
+    midi_name = midi.midi_name(i)
+    row = midi.hex8(i) + "|" + midi_name[0] + "0123456789ABCDEF"[midi_name[1]]
+    screen.blit(small.print(row), (0, i * 5))
+    
+channel(0, 32)
+
+#screen.blit(small.print("I01 A A# B C D D# E 4 F F# G G#8"), (100, 100))
 while True:
   for i in pygame.event.get():
     if (i.type == QUIT):
