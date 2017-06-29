@@ -20,7 +20,8 @@ IF !NEED_printf
 ENDIF
 
 
-IF !NEED_floatpack
-	DEFINE	NEED_floatpack
+IF !DEFINED_ministdio
+	defc	DEFINED_ministdio = 1
+	defc ministdio = 0
 ENDIF
 
