@@ -15,7 +15,7 @@ TEST(Sequencer, NoteNames) {
     ASSERT_EQ("G#", std::string(sequencer_get_note_name(11)));
 }
 
-TEST(Sequencer, AddNotesToSequencer) {
+TEST(Sequencer, AddNotesToSequencerAndLoopIt) {
     sequencer_t *sequencer = sequencer_init();
     uint8_t clock_result;
     
@@ -40,5 +40,21 @@ TEST(Sequencer, AddNotesToSequencer) {
     }
 
     sequencer_destruct(sequencer);
+}
+
+TEST(Sequencer, SerializeAndDeserialize) {
+    sequencer_t *sequencer = sequencer_init();
+    
+    sequencer_set_note_at(sequencer, note_name("C"), 0);
+    sequencer_set_note_at(sequencer, note_name("G#"), 15);
+
+    void *serialize = malloc(sizeof(*sequencer));
+    memcpy(serialize, sequencer, sizeof(*sequencer));
+    sequencer_destruct(sequencer);
+
+    ASSERT_EQ(NOTE_GS, *((uint8_t)serialize)[15]);
+
+    free(serialize);
+
 }
 

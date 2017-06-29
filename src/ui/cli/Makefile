@@ -1,0 +1,13 @@
+# Makefile
+
+CFLAGS=-g -Wall --std=c99
+LDFLAGS=-lncurses
+
+.PHONY: clean
+
+all: 
+	gcc $(CFLAGS) demo.c -o demo $(LDFLAGS)
+
+clean:
+	rm demo *.o
+

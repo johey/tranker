@@ -39,7 +39,7 @@ void sequencer_set_note_at(sequencer_t *sequencer, note_t note, uint8_t position
 }
 
 note_t *sequencer_get_current_note(sequencer_t *sequencer) {
-    return &(sequencer->note_array[sequencer->step_pointer]);
+    return &sequencer->note_array[sequencer->step_pointer];
 }
 
 uint8_t sequencer_clock(sequencer_t *sequencer) {
