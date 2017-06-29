@@ -8,12 +8,14 @@ LDFLAGS=-lncurses
 tranker: 
 	gcc $(CFLAGS) *.c -o tranker $(LDFLAGS)
 
-test:
-	g++ -o test_run -Wall tests/test_suite.cpp -lgtest -lpthread
-	./test_run
+build_tests:
+	g++ -o tests_run -g -Wall tests/test_suite.cpp -lgtest -lpthread
 
-valgrind: test
-	valgrind ./test_run
+test: build_tests
+	./tests_run
+
+valgrind: build_tests
+	valgrind ./tests_run
 
 spectrum:
 	zcc +zx -c tranker.c
@@ -24,5 +26,5 @@ run: tranker
 	./tranker
 
 clean:
-	rm -f tranker test_run *.o
+	rm -f tranker tests_run *.o
 

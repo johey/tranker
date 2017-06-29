@@ -1,8 +1,15 @@
 #include <ncurses.h>
 #include <unistd.h>
 
+#include "queue.h"
+
 #define SCREEN_WIDTH 32
 #define SCREEN_HEIGHT 24
+
+typedef struct {
+    unsigned char key;
+    void *event;
+} key;
 
 void track_print(WINDOW *track, int cursor_y, int cursor_x) {
     for (int i=0; i<16; i++) {
@@ -17,6 +24,8 @@ int main(int argc, char **argv) {
     int key_pressed = 0;
     int cursor_y = 0, cursor_x = 2;
     unsigned int delay = 20000;
+
+    key keys[100];
 
     WINDOW *track;
 
@@ -36,12 +45,12 @@ int main(int argc, char **argv) {
 
         key_pressed = getch();
         switch(key_pressed) {
-          case 'j': cursor_y++; break;
-          case 'k': cursor_y--; break;
-          case 'h': cursor_x--; break;
-          case 'l': cursor_x++; break;
+            case 'j': cursor_y++; break;
+            case 'k': cursor_y--; break;
+            case 'h': cursor_x--; break;
+            case 'l': cursor_x++; break;
         }
-        
+
         getmaxyx(stdscr, ymax, xmax);
         usleep(delay);
     }

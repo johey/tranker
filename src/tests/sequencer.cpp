@@ -18,7 +18,7 @@ TEST(Sequencer, NoteNames) {
 TEST(Sequencer, AddNotesToSequencerAndLoopIt) {
     sequencer_t *sequencer = sequencer_init();
     uint8_t clock_result;
-    
+
     sequencer_set_note_at(sequencer, note_name("C"), 0);
     sequencer_set_note_at(sequencer, note_name("G#"), 15);
 
@@ -44,7 +44,7 @@ TEST(Sequencer, AddNotesToSequencerAndLoopIt) {
 
 TEST(Sequencer, SerializeAndDeserialize) {
     sequencer_t *sequencer = sequencer_init();
-    
+
     sequencer_set_note_at(sequencer, note_name("C"), 0);
     sequencer_set_note_at(sequencer, note_name("G#"), 15);
 

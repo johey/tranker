@@ -1,28 +1,70 @@
-#include "../tranker.c"
+#include "../queue.c"
 
-TEST(EventList, AddTwoElements) {
-	uint8_t event_counter = 0;
-	event_t *g_events = (event_t *)malloc(10 * sizeof(event_t));
+void *function1(void *data) {
+    printf("1%s", (char *)data);
+    return NULL;
+}
 
-	event_t my_event;
-	my_event.event_function = print_fuck;
-	my_event.data = (char *)"1";
-	add_event(g_events, &event_counter, &my_event);
-	event_counter++;
+void *function2(void *data) {
+    printf("2%s", (char *)data);
+    return NULL;
+}
 
-	event_t my_event2;
-	my_event2.event_function = print_fuck;
-	my_event2.data = (char *)"2";
-	add_event(g_events, &event_counter, &my_event2);
-	event_counter++;
+TEST(EventList, AddRemoveAddElement) {
+    queue_t *events = queue_init();
+    node_t *my_event;
+    int popped = 0;
 
-	testing::internal::CaptureStdout();
-	run_events(g_events, event_counter);
-	free(g_events);
+    // Push 10
+    for (int i = 0; i < 10; i++) {
+        my_event = (node_t *)malloc(sizeof(node_t));
+        queue_push(events, my_event);
+    }
 
-	std::string expected = "1\n2\n";
-	std::string actual = testing::internal::GetCapturedStdout();
+    // Pop 7
+    for (int i = 0; i < 7; i++) {
+        free(queue_pop(events));
+    }
 
-	EXPECT_EQ(expected, actual);
+    // Push 3
+    for (int i = 0; i < 3; i++) {
+        my_event = (node_t *)malloc(sizeof(node_t));
+        queue_push(events, my_event);
+    }
+
+    // Pop remaining
+    while((my_event = queue_pop(events)) != NULL) {
+        free(my_event);
+        popped++;
+    }
+    queue_destruct(events);
+
+    // Should be 6 left
+    EXPECT_EQ(6, popped);
+}
+
+TEST(EventList, RunEventFunctions) {
+    queue_t *g_events = queue_init();
+
+    for (int i = 0; i < 10; i++) {
+        node_t *my_event = (node_t *)malloc(sizeof(node_t));
+        char *datastring = (char *)malloc(2*sizeof(char));
+        my_event->event_function = function1;
+        if (i % 2)
+            my_event->event_function = function2;
+        sprintf(datastring, "%c", 'a'+i);
+        my_event->data = datastring;
+        queue_push(g_events, my_event);
+    }
+
+    testing::internal::CaptureStdout();
+    run_events(g_events);
+
+    queue_destruct(g_events);
+
+    std::string expected = "1a2b1c2d1e2f1g2h1i2j";
+    std::string actual = testing::internal::GetCapturedStdout();
+
+    EXPECT_EQ(expected, actual);
 }
 

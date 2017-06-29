@@ -53,7 +53,7 @@ uint8_t sequencer_clock(sequencer_t *sequencer) {
     if ((PATTERN_MAXLENGTH - 1) == sequencer->step_pointer) {
         return SEQUENCER_ENDED;
     }
-        
+
     return SEQUENCER_RUNNING;
 }
 
