@@ -37,14 +37,22 @@ node_t *queue_pop(queue_t *queue) {
     if (queue->first->next == queue->last) return NULL;
     node = queue->first->next;
     queue->first->next = node->next;
+    queue->first->next->prev = queue->first;
     return node;
+}
+
+void add_event(queue_t *queue, void *FUNCPOINT(function, void *data), void *data) {
+    node_t *event = (node_t *)malloc(sizeof(node_t));
+    event->event_function = function;
+    event->data = data;
+    queue_push(queue, event);
 }
 
 void run_events(queue_t *queue) {
     node_t *node;
     while((node = queue_pop(queue)) != NULL) {
         node->event_function(node->data);
-        free(node->data);
+        //free(node->data);
         free(node);
     }
 }

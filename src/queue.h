@@ -21,6 +21,7 @@ void queue_destruct(queue_t *queue);
 void queue_push(queue_t *queue, node_t *event);
 node_t *queue_pop(queue_t *queue);
 
+void add_event(queue_t *queue, void *FUNCPOINT(function, void *data), void *data);
 void run_events(queue_t *queue);
 
 #endif //__QUEUE_H

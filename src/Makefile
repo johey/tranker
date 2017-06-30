@@ -1,12 +1,19 @@
 # Makefile
 
+CC=gcc
 CFLAGS=-g -Wall --std=gnu99
 LDFLAGS=-lncurses
 
+SRCS=$(wildcard *.c)
+OBJS=$(SRCS:.c=.o )
+
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $< -o $@
+
 .PHONY: clean
 
-tranker: 
-	gcc $(CFLAGS) *.c -o tranker $(LDFLAGS)
+all: $(OBJS)
+	$(CC) $(CFLAGS) *.o -o tranker $(LDFLAGS)
 
 build_tests:
 	g++ -o tests_run -g -Wall tests/test_suite.cpp -lgtest -lpthread
@@ -20,11 +27,9 @@ valgrind: build_tests
 spectrum:
 	zcc +zx -c tranker.c
 
-all: test spectrum tranker
-
-run: tranker
+run: all
 	./tranker
 
 clean:
-	rm -f tranker tests_run *.o
+	rm -f $(OBJS) tranker tests_run
 

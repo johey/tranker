@@ -10,6 +10,15 @@ void *function2(void *data) {
     return NULL;
 }
 
+void *nop(void *data) {
+    printf("nop ");
+    return NULL;
+}
+
+void *dummy(void *data) {
+    return NULL;
+}
+
 TEST(EventList, AddRemoveAddElement) {
     queue_t *events = queue_init();
     node_t *my_event;
@@ -47,14 +56,12 @@ TEST(EventList, RunEventFunctions) {
     queue_t *g_events = queue_init();
 
     for (int i = 0; i < 10; i++) {
-        node_t *my_event = (node_t *)malloc(sizeof(node_t));
         char *datastring = (char *)malloc(2*sizeof(char));
-        my_event->event_function = function1;
-        if (i % 2)
-            my_event->event_function = function2;
         sprintf(datastring, "%c", 'a'+i);
-        my_event->data = datastring;
-        queue_push(g_events, my_event);
+        if (i % 2)
+            add_event(g_events, function2, datastring);
+        else
+            add_event(g_events, function1, datastring);
     }
 
     testing::internal::CaptureStdout();
@@ -66,5 +73,31 @@ TEST(EventList, RunEventFunctions) {
     std::string actual = testing::internal::GetCapturedStdout();
 
     EXPECT_EQ(expected, actual);
+}
+
+TEST(EventList, EmptyQueue) {
+    queue_t *queue = queue_init();
+    EXPECT_EQ(queue->first->next, queue->last);
+    EXPECT_EQ(queue->last->prev, queue->first);
+
+    add_event(queue, dummy, NULL);
+    run_events(queue);
+
+    EXPECT_EQ(queue->first->next, queue->last);
+    EXPECT_EQ(queue->last->prev, queue->first);
+}
+
+TEST(EventList, ReuseEventList) {
+    queue_t *events = queue_init();
+
+    testing::internal::CaptureStdout();
+    add_event(events, nop, NULL);
+    run_events(events);
+    add_event(events, nop, NULL);
+    run_events(events);
+    std::string actual = testing::internal::GetCapturedStdout();
+
+    queue_destruct(events);
+    EXPECT_EQ("nop nop ", actual);
 }
 
