@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "event_tests.cpp"
-#include "sequencer.cpp"
+#include "track.cpp"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
