@@ -54,12 +54,11 @@ int main(int argc, char **argv) {
         key_pressed = getch();
         switch(key_pressed) {
             case 'j': add_event(events, event_cursor_down, &cursor); break;
-            case 'k': add_event(events, event_cursor_up, &cursor); /*cursor.y--;*/ break;
+            case 'k': add_event(events, event_cursor_up, &cursor); break;
             case 'h': add_event(events, event_cursor_left, &cursor); break;
             case 'l': add_event(events, event_cursor_right, &cursor); break;
             case 'q': add_event(events, event_quit, NULL); break;
         }
-        //add_event(events, event_cursor_down, &cursor);
 
         getmaxyx(stdscr, ymax, xmax);
         run_events(events);
