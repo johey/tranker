@@ -1,0 +1,4 @@
+*.o
+tests_run
+tranker
+
