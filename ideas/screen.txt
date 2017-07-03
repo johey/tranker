@@ -118,3 +118,28 @@ Expanded view
 |---------|---------|---------|
 |C 403----|E 403----|G 403----|
 +-----------------------------+
+
+
+
+
+
+
+Another Concept?
+################
+
+Tracks & Patches
+----------------
+
+* any number of tracks
+* patches mono or poly
+* patches can use any hardware resources
+* conflict solver with priorities
+* one note or chord per line in a track
+* chords entered in popup window, which will fold to an auto-generated chord name
+* chords on mono patches will arp
+
+TRK 01
+------
+C 201
+
+
