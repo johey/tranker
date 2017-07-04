@@ -1,4 +1,5 @@
 *.o
+*.swp
 tests_run
 tranker
 
