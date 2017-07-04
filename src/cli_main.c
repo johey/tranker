@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 
+#include "singelton.h"
 #include "queue.h"
 #include "editor.h"
 
@@ -11,6 +12,12 @@ typedef struct {
     unsigned char key;
     void *event;
 } key;
+
+void *event_chordwindow(void *win) {
+    mvwprintw((WINDOW *)win, 1, 1, "LOLLLLLLL");   
+    wrefresh((WINDOW *)win);
+    return NULL;
+}
 
 void track_print(WINDOW *track, int cursor_y, int cursor_x) {
     for (int i=0; i<32; i++) {
@@ -26,12 +33,15 @@ void *event_quit(void *data) {
 }
 
 int main(int argc, char **argv) {
+    singelton_t *active;
     int xmax, ymax;
     int key_pressed = 0;
-    cursor_t cursor = { 0, 1 };
+    cursor_t cursor = { 0, 2 };
     unsigned int delay = 20000;
 
     queue_t *events = queue_init();
+
+    active = &editor_singelton;
 
     key keys[100];
 
@@ -49,18 +59,8 @@ int main(int argc, char **argv) {
     getmaxyx(stdscr, ymax, xmax);
 
     while(1) {
+        active->update(NULL);
         track_print(track, cursor.y, cursor.x);
-
-        key_pressed = getch();
-        switch(key_pressed) {
-            case 'j': add_event(events, event_cursor_down, &cursor); break;
-            case 'k': add_event(events, event_cursor_up, &cursor); break;
-            case 'h': add_event(events, event_cursor_left, &cursor); break;
-            case 'l': add_event(events, event_cursor_right, &cursor); break;
-            case 'q': add_event(events, event_quit, NULL); break;
-        }
-
-        getmaxyx(stdscr, ymax, xmax);
         run_events(events);
         usleep(delay);
     }
