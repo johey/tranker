@@ -1,4 +1,5 @@
 #include "editor.h"
+#include "queue.h"
 
 void *event_cursor_up(void *cursor) {
     ((cursor_t *)cursor)->y--;
@@ -21,20 +22,15 @@ void *event_cursor_right(void *cursor) {
 }
 
 void *editor_update(void *data) {
-    printf("hej\n");
-        /*
-        key_pressed = getch();
-        switch(key_pressed) {
-            case 'j': add_event(events, event_cursor_down, &cursor); break;
-            case 'k': add_event(events, event_cursor_up, &cursor); break;
-            case 'h': add_event(events, event_cursor_left, &cursor); break;
-            case 'l': add_event(events, event_cursor_right, &cursor); break;
-            case 'q': add_event(events, event_quit, NULL); break;
-            case KEY_F(6): add_event(events, event_chordwindow, track); break;
-        }
-
-        getmaxyx(stdscr, ymax, xmax);
-        */
+    api_t *api = (api_t *)data;
+    switch(api->key) {
+        case TK_DOWN: add_event(api->events, event_cursor_down, &(api->cursor)); break;
+        case TK_UP: add_event(api->events, event_cursor_up, &(api->cursor)); break;
+        case TK_LEFT: add_event(api->events, event_cursor_left, &(api->cursor)); break;
+        case TK_RIGHT: add_event(api->events, event_cursor_right, &(api->cursor)); break;
+        //case TK_QUIT: add_event(api->events, event_quit, NULL); break;
+        //case TK_CHORD: add_event(api->events, event_chordwindow, track); break;
+    }
     return NULL;
 }
 

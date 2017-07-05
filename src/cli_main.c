@@ -2,16 +2,10 @@
 #include <unistd.h>
 
 #include "singelton.h"
-#include "queue.h"
 #include "editor.h"
 
 #define SCREEN_WIDTH 32
 #define SCREEN_HEIGHT 24
-
-typedef struct {
-    unsigned char key;
-    void *event;
-} key;
 
 void *event_chordwindow(void *win) {
     mvwprintw((WINDOW *)win, 1, 1, "LOLLLLLLL");   
@@ -33,16 +27,23 @@ void *event_quit(void *data) {
 }
 
 int main(int argc, char **argv) {
-    int xmax, ymax;
-    int key_pressed = 0;
-    cursor_t cursor = { 0, 2 };
+    //int xmax, ymax;
     unsigned int delay = 20000;
+    unsigned char keymap[256];
 
-    queue_t *events = queue_init();
+    api_t api;
+    api.events = queue_init();
+    api.cursor = (cursor_t){0, 2};
 
+    for (unsigned char i = 0; i < 255; i++) keymap[i] = '\0';
+    keymap['q'] = TK_QUIT;
+    keymap['k'] = TK_UP;
+    keymap['j'] = TK_DOWN;
+    keymap['l'] = TK_RIGHT;
+    keymap['h'] = TK_LEFT;
+
+    editor_singelton_init();
     active = &editor_singelton;
-
-    key keys[100];
 
     WINDOW *track;
 
@@ -55,12 +56,15 @@ int main(int argc, char **argv) {
 
     track = newwin(32, 10, 0, 0);
     nodelay(stdscr, TRUE);
-    getmaxyx(stdscr, ymax, xmax);
+    //getmaxyx(stdscr, ymax, xmax);
 
     while(1) {
-        active->update(NULL);
-        track_print(track, cursor.y, cursor.x);
-        run_events(events, false);
+        api.key = keymap[getch()];
+        active->update(&api);
+
+        //getmaxyx(stdscr, ymax, xmax);
+        track_print(track, api.cursor.y, api.cursor.x);
+        run_events(api.events, false);
         usleep(delay);
     }
 

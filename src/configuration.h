@@ -19,5 +19,13 @@ typedef unsigned char uint8_t;
 // Constants
 #define PATTERN_MAXLENGTH 16
 
+// Keys
+#define TK_QUIT    0 // q
+#define TK_UP      1 // k
+#define TK_DOWN    2 // j
+#define TK_RIGHT   3 // l
+#define TK_LEFT    4 // h
+#define TK_CHORD   5 // F6
+
 #endif
 
