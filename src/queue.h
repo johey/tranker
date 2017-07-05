@@ -22,7 +22,7 @@ void queue_push(queue_t *queue, node_t *event);
 node_t *queue_pop(queue_t *queue);
 
 void add_event(queue_t *queue, void *FUNCPOINT(function, void *data), void *data);
-void run_events(queue_t *queue);
+void run_events(queue_t *queue, bool free_data);
 
 #endif //__QUEUE_H
 

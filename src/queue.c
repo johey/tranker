@@ -48,11 +48,11 @@ void add_event(queue_t *queue, void *FUNCPOINT(function, void *data), void *data
     queue_push(queue, event);
 }
 
-void run_events(queue_t *queue) {
+void run_events(queue_t *queue, bool free_data) {
     node_t *node;
     while((node = queue_pop(queue)) != NULL) {
         node->event_function(node->data);
-        //free(node->data);
+        if (free_data) free(node->data);
         free(node);
     }
 }

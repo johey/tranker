@@ -33,7 +33,6 @@ void *event_quit(void *data) {
 }
 
 int main(int argc, char **argv) {
-    singelton_t *active;
     int xmax, ymax;
     int key_pressed = 0;
     cursor_t cursor = { 0, 2 };
@@ -61,7 +60,7 @@ int main(int argc, char **argv) {
     while(1) {
         active->update(NULL);
         track_print(track, cursor.y, cursor.x);
-        run_events(events);
+        run_events(events, false);
         usleep(delay);
     }
 

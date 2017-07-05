@@ -54,9 +54,11 @@ TEST(EventList, AddRemoveAddElement) {
 
 TEST(EventList, RunEventFunctions) {
     queue_t *g_events = queue_init();
+    node_t *event;
+    char *datastring;
 
     for (int i = 0; i < 10; i++) {
-        char *datastring = (char *)malloc(2*sizeof(char));
+        datastring = (char *)malloc(2*sizeof(char));
         sprintf(datastring, "%c", 'a'+i);
         if (i % 2)
             add_event(g_events, function2, datastring);
@@ -65,8 +67,11 @@ TEST(EventList, RunEventFunctions) {
     }
 
     testing::internal::CaptureStdout();
-    run_events(g_events);
+    run_events(g_events, 1);
 
+    while((event = queue_pop(g_events)) != NULL) {
+        free(event);
+    }
     queue_destruct(g_events);
 
     std::string expected = "1a2b1c2d1e2f1g2h1i2j";
@@ -81,10 +86,12 @@ TEST(EventList, EmptyQueue) {
     EXPECT_EQ(queue->last->prev, queue->first);
 
     add_event(queue, dummy, NULL);
-    run_events(queue);
+    run_events(queue, 0);
 
     EXPECT_EQ(queue->first->next, queue->last);
     EXPECT_EQ(queue->last->prev, queue->first);
+
+    queue_destruct(queue);
 }
 
 TEST(EventList, ReuseEventList) {
@@ -92,9 +99,9 @@ TEST(EventList, ReuseEventList) {
 
     testing::internal::CaptureStdout();
     add_event(events, nop, NULL);
-    run_events(events);
+    run_events(events, 0);
     add_event(events, nop, NULL);
-    run_events(events);
+    run_events(events, 0);
     std::string actual = testing::internal::GetCapturedStdout();
 
     queue_destruct(events);
