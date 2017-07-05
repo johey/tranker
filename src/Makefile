@@ -21,6 +21,9 @@ build_tests:
 test: build_tests
 	./tests_run
 
+gdbtest: build_tests
+	gdb ./tests_run
+
 valgrind: build_tests
 	valgrind ./tests_run
 
