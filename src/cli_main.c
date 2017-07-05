@@ -7,12 +7,6 @@
 #define SCREEN_WIDTH 32
 #define SCREEN_HEIGHT 24
 
-void *event_chordwindow(void *win) {
-    mvwprintw((WINDOW *)win, 1, 1, "LOLLLLLLL");   
-    wrefresh((WINDOW *)win);
-    return NULL;
-}
-
 void track_print(WINDOW *track, int cursor_y, int cursor_x) {
     for (int i=0; i<32; i++) {
         mvwprintw(track, i, 0, "%02x---", i);

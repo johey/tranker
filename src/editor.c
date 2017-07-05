@@ -28,8 +28,6 @@ void *editor_update(void *data) {
         case TK_UP: add_event(api->events, event_cursor_up, &(api->cursor)); break;
         case TK_LEFT: add_event(api->events, event_cursor_left, &(api->cursor)); break;
         case TK_RIGHT: add_event(api->events, event_cursor_right, &(api->cursor)); break;
-        //case TK_QUIT: add_event(api->events, event_quit, NULL); break;
-        //case TK_CHORD: add_event(api->events, event_chordwindow, track); break;
     }
     return NULL;
 }
