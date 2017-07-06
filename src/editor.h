@@ -5,6 +5,8 @@
 #include "singelton.h"
 #include "queue.h"
 
+typedef enum { normal, insert, ex } editormode_t;
+
 typedef struct {
     uint8_t y;
     uint8_t x;
@@ -14,15 +16,23 @@ typedef struct {
     unsigned char key;
     queue_t *events;
     cursor_t cursor;
-    enum {normal = 0, insert = 1, ex = 2} mode;
+    editormode_t mode;
 } api_t;
 
 singelton_t editor_singelton;
 
-void *event_cursor_up(void *cursor);
-void *event_cursor_down(void *cursor);
-void *event_cursor_left(void *cursor);
-void *event_cursor_right(void *cursor);
+void *event_cursor_up(void *data);
+void *event_cursor_down(void *data);
+void *event_cursor_left(void *data);
+void *event_cursor_right(void *data);
+
+void *event_mode_insert(void *data);
+void *event_mode_normal(void *data);
+void *event_mode_ex(void *data);
+
+void editor_update_normal(api_t *api);
+void editor_update_insert(api_t *api);
+void editor_update_ex(api_t *api);
 
 void *editor_update(void *data);
 void editor_singelton_init();
