@@ -6,13 +6,13 @@ void add_event(list_t *list, void *FUNCPOINT(function, void *data), void *data) 
     event->event_function = function;
     event->data = data;
     node->data = event;
-    list_push(list, node);
+    list_push_back(list, node);
 }
 
 void run_events(list_t *list, bool free_data) {
     node_t *node;
     event_t *event;
-    while((node = list_pop(list)) != NULL) {
+    while((node = list_remove_at(list, 0)) != NULL) {
         event = (event_t *)node->data;
         event->event_function(event->data);
         if (free_data) free(event->data);
@@ -20,3 +20,4 @@ void run_events(list_t *list, bool free_data) {
         free(node);
     }
 }
+

@@ -19,40 +19,7 @@ void *dummy(void *data) {
     return NULL;
 }
 
-TEST(EventList, AddRemoveAddElement) {
-    list_t *events = list_init();
-    node_t *my_event;
-    int popped = 0;
-
-    // Push 10
-    for (int i = 0; i < 10; i++) {
-        my_event = (node_t *)malloc(sizeof(node_t));
-        list_push(events, my_event);
-    }
-
-    // Pop 7
-    for (int i = 0; i < 7; i++) {
-        free(list_pop(events));
-    }
-
-    // Push 3
-    for (int i = 0; i < 3; i++) {
-        my_event = (node_t *)malloc(sizeof(node_t));
-        list_push(events, my_event);
-    }
-
-    // Pop remaining
-    while((my_event = list_pop(events)) != NULL) {
-        free(my_event);
-        popped++;
-    }
-    list_destruct(events);
-
-    // Should be 6 left
-    EXPECT_EQ(6, popped);
-}
-
-TEST(EventList, RunEventFunctions) {
+TEST(Events, RunEventFunctions) {
     list_t *g_events = list_init();
     node_t *event;
     char *datastring;
@@ -69,7 +36,7 @@ TEST(EventList, RunEventFunctions) {
     testing::internal::CaptureStdout();
     run_events(g_events, 1);
 
-    while((event = list_pop(g_events)) != NULL) {
+    while((event = list_remove_at(g_events, 0)) != NULL) {
         free(event);
     }
     list_destruct(g_events);
@@ -80,7 +47,7 @@ TEST(EventList, RunEventFunctions) {
     EXPECT_EQ(expected, actual);
 }
 
-TEST(EventList, EmptyQueue) {
+TEST(Events, EmptyQueue) {
     list_t *list = list_init();
     EXPECT_EQ(list->first->next, list->last);
     EXPECT_EQ(list->last->prev, list->first);
@@ -94,7 +61,7 @@ TEST(EventList, EmptyQueue) {
     list_destruct(list);
 }
 
-TEST(EventList, ReuseEventList) {
+TEST(Events, ReuseEventList) {
     list_t *events = list_init();
 
     testing::internal::CaptureStdout();

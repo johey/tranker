@@ -17,8 +17,8 @@ typedef struct {
 list_t *list_init();
 void list_destruct(list_t *list);
 
-void list_push(list_t *list, node_t *event);
-node_t *list_pop(list_t *list);
+void list_push_back(list_t *list, node_t *event);
+node_t *list_remove_at(list_t *list, uint8_t pos);
 
 #endif //__LIST_H
 

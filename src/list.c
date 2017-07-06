@@ -23,21 +23,38 @@ void list_destruct(list_t *list) {
     free(list);
 }
 
-// Push last in list
-void list_push(list_t *list, node_t *node) {
+void list_push_back(list_t *list, node_t *node) {
     node->prev = list->last->prev;
     node->next = list->last;
     list->last->prev->next = node;
     list->last->prev = node;
 }
 
-// Pop first in list
-node_t *list_pop(list_t *list) {
-    node_t *node;
-    if (list->first->next == list->last) return NULL;
-    node = list->first->next;
-    list->first->next = node->next;
-    list->first->next->prev = list->first;
+node_t *list_remove_at(list_t *list, uint8_t pos) {
+    node_t *prev = list->first;
+    node_t *node = prev->next;
+
+    if (node == list->last) return NULL;
+
+    for (uint8_t i = 0; i < pos; i++) {
+        prev = node;
+        if ((node = node->next) == (list->last)) return NULL;
+    }
+    prev->next = node->next;
+    prev->next->prev = prev;
+
+    return node;
+}
+
+node_t *list_get_at(list_t *list, uint8_t pos) {
+    node_t *node = list->first->next;
+
+    for (uint8_t i = 0; i < pos; i++) {
+        if ((node = node->next) == NULL) return NULL;
+    }
+
+    if (node == list->last) return NULL;
+
     return node;
 }
 
