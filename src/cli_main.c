@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
     unsigned char keymap[256];
 
     api_t api;
-    api.events = queue_init();
+    api.events = list_init();
     api.cursor = (cursor_t){0, 2};
     api.mode = normal;
 

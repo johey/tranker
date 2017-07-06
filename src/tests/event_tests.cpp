@@ -1,4 +1,4 @@
-#include "../queue.c"
+#include "../event.c"
 
 void *function1(void *data) {
     printf("1%s", (char *)data);
@@ -20,40 +20,40 @@ void *dummy(void *data) {
 }
 
 TEST(EventList, AddRemoveAddElement) {
-    queue_t *events = queue_init();
+    list_t *events = list_init();
     node_t *my_event;
     int popped = 0;
 
     // Push 10
     for (int i = 0; i < 10; i++) {
         my_event = (node_t *)malloc(sizeof(node_t));
-        queue_push(events, my_event);
+        list_push(events, my_event);
     }
 
     // Pop 7
     for (int i = 0; i < 7; i++) {
-        free(queue_pop(events));
+        free(list_pop(events));
     }
 
     // Push 3
     for (int i = 0; i < 3; i++) {
         my_event = (node_t *)malloc(sizeof(node_t));
-        queue_push(events, my_event);
+        list_push(events, my_event);
     }
 
     // Pop remaining
-    while((my_event = queue_pop(events)) != NULL) {
+    while((my_event = list_pop(events)) != NULL) {
         free(my_event);
         popped++;
     }
-    queue_destruct(events);
+    list_destruct(events);
 
     // Should be 6 left
     EXPECT_EQ(6, popped);
 }
 
 TEST(EventList, RunEventFunctions) {
-    queue_t *g_events = queue_init();
+    list_t *g_events = list_init();
     node_t *event;
     char *datastring;
 
@@ -69,10 +69,10 @@ TEST(EventList, RunEventFunctions) {
     testing::internal::CaptureStdout();
     run_events(g_events, 1);
 
-    while((event = queue_pop(g_events)) != NULL) {
+    while((event = list_pop(g_events)) != NULL) {
         free(event);
     }
-    queue_destruct(g_events);
+    list_destruct(g_events);
 
     std::string expected = "1a2b1c2d1e2f1g2h1i2j";
     std::string actual = testing::internal::GetCapturedStdout();
@@ -81,21 +81,21 @@ TEST(EventList, RunEventFunctions) {
 }
 
 TEST(EventList, EmptyQueue) {
-    queue_t *queue = queue_init();
-    EXPECT_EQ(queue->first->next, queue->last);
-    EXPECT_EQ(queue->last->prev, queue->first);
+    list_t *list = list_init();
+    EXPECT_EQ(list->first->next, list->last);
+    EXPECT_EQ(list->last->prev, list->first);
 
-    add_event(queue, dummy, NULL);
-    run_events(queue, 0);
+    add_event(list, dummy, NULL);
+    run_events(list, 0);
 
-    EXPECT_EQ(queue->first->next, queue->last);
-    EXPECT_EQ(queue->last->prev, queue->first);
+    EXPECT_EQ(list->first->next, list->last);
+    EXPECT_EQ(list->last->prev, list->first);
 
-    queue_destruct(queue);
+    list_destruct(list);
 }
 
 TEST(EventList, ReuseEventList) {
-    queue_t *events = queue_init();
+    list_t *events = list_init();
 
     testing::internal::CaptureStdout();
     add_event(events, nop, NULL);
@@ -104,7 +104,7 @@ TEST(EventList, ReuseEventList) {
     run_events(events, 0);
     std::string actual = testing::internal::GetCapturedStdout();
 
-    queue_destruct(events);
+    list_destruct(events);
     EXPECT_EQ("nop nop ", actual);
 }
 

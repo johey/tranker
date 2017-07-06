@@ -3,7 +3,7 @@
 
 #include "configuration.h"
 #include "singelton.h"
-#include "queue.h"
+#include "event.h"
 
 typedef enum { normal, insert, ex } editormode_t;
 
@@ -14,7 +14,7 @@ typedef struct {
 
 typedef struct {
     unsigned char key;
-    queue_t *events;
+    list_t *events;
     cursor_t cursor;
     editormode_t mode;
 } api_t;

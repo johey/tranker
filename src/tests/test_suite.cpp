@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
+#include "list_tests.cpp"
 #include "event_tests.cpp"
 #include "track.cpp"
 #include "singelton.cpp"

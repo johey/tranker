@@ -1,5 +1,5 @@
 #include "editor.h"
-#include "queue.h"
+#include "list.h"
 
 void *event_cursor_up(void *data) {
     api_t *api = (api_t *)data;
