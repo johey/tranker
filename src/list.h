@@ -19,6 +19,7 @@ void list_destruct(list_t *list);
 
 void list_push_back(list_t *list, node_t *event);
 node_t *list_remove_at(list_t *list, uint8_t pos);
+node_t *list_get_at(list_t *list, uint8_t pos);
 
 #endif //__LIST_H
 

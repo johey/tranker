@@ -6,6 +6,7 @@
 #include "track.cpp"
 #include "singelton.cpp"
 #include "editor_test.cpp"
+#include "songdata_tests.cpp"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
