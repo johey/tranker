@@ -100,7 +100,7 @@ typedef unsigned char uint8_t;
 #define TK_7       0x4d
 #define TK_8       0x4e
 #define TK_9       0x4f
-#define TK_INSERT  0x50
+#define TK_COLON   0x50
 #define TK_QUIT    0x51
 #define TK_EX      0x52
 

@@ -33,15 +33,17 @@ int main(int argc, char **argv) {
     api_t api;
     api.events = queue_init();
     api.cursor = (cursor_t){0, 2};
+    api.mode = normal;
 
     for (unsigned char i = 0; i < 255; i++) keymap[i] = '\0';
     setenv("ESCDELAY", "10", 1);
+    for (unsigned char c = 'a'; c < 'z'; c++) 
+        keymap[c] = TK_a + c - 'a';
     keymap[27] = TK_ESC;
     keymap['k'] = TK_UP;
     keymap['j'] = TK_DOWN;
     keymap['l'] = TK_RIGHT;
     keymap['h'] = TK_LEFT;
-    keymap['i'] = TK_INSERT;
     keymap['q'] = TK_QUIT;
     keymap[':'] = TK_EX;
 

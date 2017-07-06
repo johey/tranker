@@ -51,7 +51,7 @@ void editor_update_normal(api_t *api) {
         case TK_UP:     add_event(api->events, event_cursor_up, api); break;
         case TK_LEFT:   add_event(api->events, event_cursor_left, api); break;
         case TK_RIGHT:  add_event(api->events, event_cursor_right, api); break;
-        case TK_INSERT: add_event(api->events, event_mode_insert, api); break;
+        case TK_i: add_event(api->events, event_mode_insert, api); break;
         case TK_EX:     add_event(api->events, event_mode_ex, api); break;
     }
 }
