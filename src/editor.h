@@ -14,6 +14,7 @@ typedef struct {
     unsigned char key;
     queue_t *events;
     cursor_t cursor;
+    enum {normal = 0, insert = 1, ex = 2} mode;
 } api_t;
 
 singelton_t editor_singelton;

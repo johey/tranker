@@ -15,9 +15,14 @@ void track_print(WINDOW *track, int cursor_y, int cursor_x) {
     wrefresh(track);
 }
 
-void *event_quit(void *data) {
-    endwin();
-    exit(0);
+void *event_add_track(void *data) {
+    return NULL;
+}
+
+void generic_update(api_t *api) {
+    switch(api->key) {
+        case TK_F1: add_event(api->events, event_add_track, NULL); break;
+    }
 }
 
 int main(int argc, char **argv) {
@@ -30,11 +35,15 @@ int main(int argc, char **argv) {
     api.cursor = (cursor_t){0, 2};
 
     for (unsigned char i = 0; i < 255; i++) keymap[i] = '\0';
-    keymap['q'] = TK_QUIT;
+    setenv("ESCDELAY", "10", 1);
+    keymap[27] = TK_ESC;
     keymap['k'] = TK_UP;
     keymap['j'] = TK_DOWN;
     keymap['l'] = TK_RIGHT;
     keymap['h'] = TK_LEFT;
+    keymap['i'] = TK_INSERT;
+    keymap['q'] = TK_QUIT;
+    keymap[':'] = TK_EX;
 
     editor_singelton_init();
     active = &editor_singelton;
@@ -52,9 +61,11 @@ int main(int argc, char **argv) {
     nodelay(stdscr, TRUE);
     //getmaxyx(stdscr, ymax, xmax);
 
-    while(1) {
+    while(api.key != TK_QUIT) {
         api.key = keymap[getch()];
+
         active->update(&api);
+        generic_update(&api);
 
         //getmaxyx(stdscr, ymax, xmax);
         track_print(track, api.cursor.y, api.cursor.x);
@@ -62,6 +73,8 @@ int main(int argc, char **argv) {
         usleep(delay);
     }
 
+    endwin();
+    printf("See you soon!\n");
     return 0;
 }
 
