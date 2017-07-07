@@ -24,7 +24,9 @@ void list_destruct(list_t *list) {
     free(list);
 }
 
-void list_push_back(list_t *list, node_t *node) {
+void list_push_back(list_t *list, void *data) {
+    node_t *node = (node_t *)malloc(sizeof(node_t));
+    node->data = data;
     node->prev = list->last->prev;
     node->next = list->last;
     list->last->prev->next = node;

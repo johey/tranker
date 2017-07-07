@@ -25,10 +25,3 @@ void songdata_track_new_pushback(songdata_t *songdata) {
     list_push_back(songdata->tracks, node);
 }
 
-track_t *songdata_track_getat(songdata_t *songdata, uint8_t pos) {
-    node_t *node;
-    node = list_get_at(songdata->tracks, 0);
-    if (node == NULL) return NULL;
-    return (track_t *)node->data;
-}
-

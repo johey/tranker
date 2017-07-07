@@ -1,12 +1,10 @@
 #include "event.h"
 
 void add_event(list_t *list, void *FUNCPOINT(function, void *data), void *data) {
-    node_t *node = (node_t *)malloc(sizeof(node_t));
     event_t *event = (event_t *)malloc(sizeof(event_t));
     event->event_function = function;
     event->data = data;
-    node->data = event;
-    list_push_back(list, node);
+    list_push_back(list, event);
 }
 
 void run_events(list_t *list, bool free_data) {

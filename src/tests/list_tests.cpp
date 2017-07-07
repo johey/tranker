@@ -4,31 +4,32 @@ TEST(List, GetAt) {
     list_t *list = list_init();
     EXPECT_EQ(NULL, list_get_at(list, 0));
 
-    node_t node1, node2;
-    node1.data = (char *)"1";
-    node2.data = (char *)"2";
-
-    list_push_back(list, &node1);
-    list_push_back(list, &node2);
+    list_push_back(list, (char *)"1");
+    list_push_back(list, (char *)"2");
 
     EXPECT_EQ("1", list_get_at(list, 0)->data);
     EXPECT_EQ("2", list_get_at(list, 1)->data);
     EXPECT_EQ(NULL, list_get_at(list, 2));
+
+    free(list_remove_at(list, 0));
+    free(list_remove_at(list, 0));
 
     list_destruct(list);
 }
 
 TEST(List, RemoveAt) {
     list_t *list = list_init();
-    node_t node1, node2;
-    node1.data = (char *)"1";
-    node2.data = (char *)"2";
+    node_t *node;
 
-    list_push_back(list, &node1);
-    list_push_back(list, &node2);
+    list_push_back(list, (char *)"1");
+    list_push_back(list, (char *)"2");
+
     //EXPECT_EQ("1", list_remove_at(list, 0)->data);
-    EXPECT_EQ("2", list_remove_at(list, 1)->data);
+    EXPECT_EQ("2", (node = list_remove_at(list, 1))->data);
     EXPECT_EQ(NULL, list_remove_at(list, 2));
+
+    free(node);
+    free(list_remove_at(list, 0));
 
     list_destruct(list);
 }
@@ -40,8 +41,7 @@ TEST(List, AddRemoveAddElement) {
 
     // Push 10
     for (int i = 0; i < 10; i++) {
-        node = (node_t *)malloc(sizeof(node_t));
-        list_push_back(list, node);
+        list_push_back(list, NULL);
     }
 
     // Pop 7
@@ -51,8 +51,7 @@ TEST(List, AddRemoveAddElement) {
 
     // Push 3
     for (int i = 0; i < 3; i++) {
-        node = (node_t *)malloc(sizeof(node_t));
-        list_push_back(list, node);
+        list_push_back(list, NULL);
     }
 
     // Pop remaining
@@ -68,16 +67,15 @@ TEST(List, AddRemoveAddElement) {
 
 TEST(List, Count) {
     list_t *list = list_init();
-    node_t *node;
 
     ASSERT_EQ(0, list_count(list));
 
-    list_push_back(list, (node_t *)malloc(sizeof(node_t)));
+    list_push_back(list, NULL);
 
     ASSERT_EQ(1, list_count(list));
 
-    list_push_back(list, (node_t *)malloc(sizeof(node_t)));
-    list_push_back(list, (node_t *)malloc(sizeof(node_t)));
+    list_push_back(list, NULL);
+    list_push_back(list, NULL);
 
     ASSERT_EQ(3, list_count(list));
 
