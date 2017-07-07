@@ -12,6 +12,7 @@ list_t *list_init() {
     last->next = NULL;
     list->first = first;
     list->last = last;
+    list->count = 0;
 
     return list;
 }
@@ -28,6 +29,7 @@ void list_push_back(list_t *list, node_t *node) {
     node->next = list->last;
     list->last->prev->next = node;
     list->last->prev = node;
+    list->count++;
 }
 
 node_t *list_remove_at(list_t *list, uint8_t pos) {
@@ -43,6 +45,8 @@ node_t *list_remove_at(list_t *list, uint8_t pos) {
     prev->next = node->next;
     prev->next->prev = prev;
 
+    list->count--;
+
     return node;
 }
 
@@ -56,5 +60,9 @@ node_t *list_get_at(list_t *list, uint8_t pos) {
     if (node == list->last) return NULL;
 
     return node;
+}
+
+uint8_t list_count(list_t *list) {
+    return list->count;
 }
 

@@ -66,3 +66,28 @@ TEST(List, AddRemoveAddElement) {
     EXPECT_EQ(6, popped);
 }
 
+TEST(List, Count) {
+    list_t *list = list_init();
+    node_t *node;
+
+    ASSERT_EQ(0, list_count(list));
+
+    list_push_back(list, (node_t *)malloc(sizeof(node_t)));
+
+    ASSERT_EQ(1, list_count(list));
+
+    list_push_back(list, (node_t *)malloc(sizeof(node_t)));
+    list_push_back(list, (node_t *)malloc(sizeof(node_t)));
+
+    ASSERT_EQ(3, list_count(list));
+
+    free(list_remove_at(list, 0));
+    free(list_remove_at(list, 0));
+
+    ASSERT_EQ(1, list_count(list));
+
+    free(list_remove_at(list, 0));
+
+    list_destruct(list);
+}
+
