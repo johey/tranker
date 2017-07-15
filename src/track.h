@@ -1,8 +1,10 @@
 #ifndef __TRACK_H
 #define __TRACK_H
 
+#include "list.h"
+
 typedef struct {
-    list_t *patterns;
+    list_t *frames;
 } track_t;
 
 track_t *track_init();

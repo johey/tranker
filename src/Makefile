@@ -1,7 +1,7 @@
 # Makefile
 
 CC=gcc
-CFLAGS=-g -Wall --std=gnu99
+CFLAGS=-g -Wall --std=gnu99 -ljansson
 LDFLAGS=-lncurses
 
 SRCS=$(wildcard *.c)
@@ -16,7 +16,7 @@ all: $(OBJS)
 	$(CC) $(CFLAGS) *.o -o tranker $(LDFLAGS)
 
 build_tests:
-	g++ -o tests_run -g -Wall tests/test_suite.cpp -lgtest -lpthread
+	g++ -o tests_run -g -Wall tests/test_suite.cpp -lgtest -lpthread -ljansson
 
 test: build_tests
 	./tests_run

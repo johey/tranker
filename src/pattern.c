@@ -57,3 +57,14 @@ uint8_t pattern_clock(pattern_t *pattern) {
     return PATTERN_RUNNING;
 }
 
+/*
+typedef struct {
+    note_t note_array[PATTERN_MAXLENGTH];
+    uint8_t length;
+    uint8_t step_pointer;
+} pattern_t;
+char *pattern_serialize(pattern_t *pattern) {
+    char 
+}
+*/
+

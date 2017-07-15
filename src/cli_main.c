@@ -3,6 +3,7 @@
 
 #include "singelton.h"
 #include "editor.h"
+#include "songdata.h"
 
 #define SCREEN_WIDTH 32
 #define SCREEN_HEIGHT 24
@@ -29,6 +30,8 @@ int main(int argc, char **argv) {
     //int xmax, ymax;
     unsigned int delay = 20000;
     unsigned char keymap[256];
+
+    songdata_t *songdata = songdata_init();
 
     api_t api;
     api.events = list_init();
@@ -59,7 +62,7 @@ int main(int argc, char **argv) {
     curs_set(TRUE);
     keypad(stdscr, TRUE);
 
-    track = newwin(32, 10, 0, 0);
+    track = newwin(32, 10, 5, 10);
     nodelay(stdscr, TRUE);
     //getmaxyx(stdscr, ymax, xmax);
 
@@ -70,8 +73,8 @@ int main(int argc, char **argv) {
         generic_update(&api);
 
         //getmaxyx(stdscr, ymax, xmax);
-        track_print(track, api.cursor.y, api.cursor.x);
         run_events(api.events, false);
+        track_print(track, api.cursor.y, api.cursor.x);
         usleep(delay);
     }
 

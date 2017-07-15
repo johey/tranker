@@ -44,6 +44,8 @@ void pattern_destruct(pattern_t *pattern);
 void pattern_set_note_at(pattern_t *pattern, note_t note, uint8_t position);
 note_t *pattern_get_current_note(pattern_t *pattern);
 
+char *pattern_serialize(pattern_t *pattern);
+
 /**
  * Send a clock pulse to the pattern, stepping it forward one step.
  * @return Non-zero if last step, zero otherwise.

@@ -3,6 +3,7 @@
 
 #include "list.h"
 #include "track.h"
+#include "frame.h"
 
 typedef struct {
     list_t *tracks;

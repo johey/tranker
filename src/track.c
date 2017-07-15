@@ -2,12 +2,12 @@
 
 track_t *track_init() {
     track_t *track = (track_t *)malloc(sizeof(track_t));
-    track->patterns = list_init();
+    track->frames = list_init();
     return track;
 }
 
 void track_destruct(track_t *track) {
-    list_destruct(track->patterns);
+    list_destruct(track->frames);
     free(track);
 }
 
