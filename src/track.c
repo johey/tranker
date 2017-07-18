@@ -2,6 +2,7 @@
 
 track_t *track_init() {
     track_t *track = (track_t *)malloc(sizeof(track_t));
+    track->ui_element = NULL;
     track->frames = list_init();
     return track;
 }

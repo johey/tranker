@@ -9,6 +9,7 @@
 #include "songdata_tests.cpp"
 #include "track_tests.cpp"
 #include "frame_tests.cpp"
+#include "cli_tests.cpp"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

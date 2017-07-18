@@ -15,6 +15,8 @@ typedef struct {
     uint8_t count;
 } list_t;
 
+#define list_iterate(l, t) for (node_t *node = l->first->next; node->next != NULL; node = node->next)
+
 list_t *list_init();
 void list_destruct(list_t *list);
 

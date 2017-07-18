@@ -3,6 +3,7 @@
 songdata_t *songdata_init() {
     songdata_t *songdata = (songdata_t *)malloc(sizeof(songdata_t));
     songdata->tracks = list_init();
+    songdata->active = NULL;
     return songdata;
 }
 
@@ -20,8 +21,7 @@ void songdata_destruct(songdata_t *songdata) {
 
 void songdata_track_new_pushback(songdata_t *songdata) {
     track_t *track = track_init();
-    node_t *node = (node_t *)malloc(sizeof(node_t));
-    node->data = track;
-    list_push_back(songdata->tracks, node);
+    list_push_back(songdata->tracks, track);
+    songdata->active = track;
 }
 

@@ -4,14 +4,16 @@ TEST(Songdata, Init) {
     songdata_t *songdata = songdata_init();
 
     ASSERT_EQ(0, list_count(songdata->tracks));
+    EXPECT_EQ(NULL, songdata->active);
 
-    list_push_back(songdata->tracks, track_init());
-    list_push_back(songdata->tracks, track_init());
-    list_push_back(songdata->tracks, track_init());
-    list_push_back(songdata->tracks, track_init());
-    list_push_back(songdata->tracks, track_init());
+    songdata_track_new_pushback(songdata);
+    songdata_track_new_pushback(songdata);
+    songdata_track_new_pushback(songdata);
+    songdata_track_new_pushback(songdata);
+    songdata_track_new_pushback(songdata);
 
     ASSERT_EQ(5, list_count(songdata->tracks));
+    ASSERT_EQ(songdata->tracks->last->prev->data, songdata->active);
 
     songdata_destruct(songdata);
 }

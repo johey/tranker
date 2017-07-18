@@ -5,6 +5,7 @@
 
 typedef struct {
     list_t *frames;
+    void *ui_element;
 } track_t;
 
 track_t *track_init();
