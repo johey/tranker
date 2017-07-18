@@ -9,7 +9,6 @@
 
 typedef struct {
     list_t *tracks;
-    track_t *active;
 } songdata_t;
 
 songdata_t *songdata_init();

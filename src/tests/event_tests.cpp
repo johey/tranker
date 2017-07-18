@@ -36,7 +36,7 @@ TEST(Events, RunEventFunctions) {
     testing::internal::CaptureStdout();
     run_events(g_events, 1);
 
-    while((event = list_remove_at(g_events, 0)) != NULL) {
+    while((event = list_remove_at(g_events, 0, active_null)) != NULL) {
         free(event);
     }
     list_destruct(g_events);

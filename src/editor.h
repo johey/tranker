@@ -4,6 +4,7 @@
 #include "configuration.h"
 #include "singelton.h"
 #include "event.h"
+#include "songdata.h"
 
 typedef enum { normal, insert, ex } editormode_t;
 
@@ -17,6 +18,7 @@ typedef struct {
     list_t *events;
     cursor_t cursor;
     editormode_t mode;
+    songdata_t *songdata;
 } api_t;
 
 singelton_t editor_singelton;
@@ -25,6 +27,8 @@ void *event_cursor_up(void *data);
 void *event_cursor_down(void *data);
 void *event_cursor_left(void *data);
 void *event_cursor_right(void *data);
+void *event_track_next(void *data);
+void *event_track_prev(void *data);
 
 void *event_mode_insert(void *data);
 void *event_mode_normal(void *data);

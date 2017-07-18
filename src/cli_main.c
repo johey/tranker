@@ -12,6 +12,7 @@ int main(int argc, char **argv) {
     api->cursor = (cursor_t){0, 2};
     api->mode = normal;
     api->key = ' ';
+    api->songdata = songdata;
 
     for (uint16_t i = 0; i < 512; i++) keymap[i] = '\0';
     setenv("ESCDELAY", "10", 1);
@@ -22,6 +23,8 @@ int main(int argc, char **argv) {
     keymap['j']      = TK_DOWN;
     keymap['l']      = TK_RIGHT;
     keymap['h']      = TK_LEFT;
+    keymap['w']      = TK_TRACK_NEXT;
+    keymap['b']      = TK_TRACK_PREV;
     keymap['q']      = TK_QUIT;
     keymap[':']      = TK_EX;
     keymap[KEY_F(1)] = TK_F1;
@@ -34,21 +37,20 @@ int main(int argc, char **argv) {
     initscr();
     noecho();
     cbreak();
-    curs_set(TRUE);
-    keypad(stdscr, TRUE);
+    curs_set(true);
+    keypad(stdscr, true);
 
-    nodelay(stdscr, TRUE);
+    nodelay(stdscr, true);
     //getmaxyx(stdscr, ymax, xmax);
 
     while(api->key != TK_QUIT) {
         int hej = getch();
         api->key = keymap[hej];
 
-        if (api->key != 0) mvprintw(0, 0, "key: %d\n", hej);
+        //if (api->key != 0) mvprintw(0, 0, "key: %d\n", hej);
         active->update(api);
-        generic_update(songdata, api);
+        generic_update(api);
 
-        refresh();
         //getmaxyx(stdscr, ymax, xmax);
         run_events(api->events, false);
         //tracks_print(songdata, api);

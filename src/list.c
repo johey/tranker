@@ -13,6 +13,7 @@ list_t *list_init() {
     list->first = first;
     list->last = last;
     list->count = 0;
+    list->active = NULL;
 
     return list;
 }
@@ -24,7 +25,7 @@ void list_destruct(list_t *list) {
     free(list);
 }
 
-void list_push_back(list_t *list, void *data) {
+void list_push_back(list_t *list, void *data, bool set_active) {
     node_t *node = (node_t *)malloc(sizeof(node_t));
     node->data = data;
     node->prev = list->last->prev;
@@ -32,9 +33,11 @@ void list_push_back(list_t *list, void *data) {
     list->last->prev->next = node;
     list->last->prev = node;
     list->count++;
+
+    if (set_active) list->active = node;
 }
 
-node_t *list_remove_at(list_t *list, uint8_t pos) {
+node_t *list_remove_at(list_t *list, uint8_t pos, active_transfer transfer) {
     node_t *prev = list->first;
     node_t *node = prev->next;
 
@@ -48,6 +51,27 @@ node_t *list_remove_at(list_t *list, uint8_t pos) {
     prev->next->prev = prev;
 
     list->count--;
+
+    if (list->active != node)
+        return node;
+
+    switch(transfer) {
+        case active_null:
+            list->active = NULL;
+            break;
+        case active_prev:
+            list->active = node->prev;
+            break;
+        case active_next:
+            list->active = node->next;
+            break;
+    }
+    if (transfer == active_null || list->count == 0) 
+        list->active = NULL;
+    else if (transfer == active_next && list->active == list->last)
+        list->active = node->prev;
+    else if (transfer == active_prev && list->active == list->first)
+        list->active = node->next;
 
     return node;
 }
@@ -66,5 +90,23 @@ node_t *list_get_at(list_t *list, uint8_t pos) {
 
 uint8_t list_count(list_t *list) {
     return list->count;
+}
+
+void list_active_next(list_t *list) {
+    if (!(list->active))
+        return;
+
+    list->active = list->active->next;
+    if (list->active == list->last)
+        list->active = list->first->next;
+}
+
+void list_active_prev(list_t *list) {
+    if (!(list->active))
+        return;
+
+    list->active = list->active->prev;
+    if (list->active == list->first)
+        list->active = list->last->prev;
 }
 
