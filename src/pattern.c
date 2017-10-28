@@ -21,6 +21,7 @@ note_t note_name_func(char *name) {
 pattern_t *pattern_init() {
     uint8_t i;
     pattern_t *pattern = (pattern_t *)malloc(sizeof(pattern_t));
+    pattern->notes = list_init();
     pattern->length = PATTERN_MAXLENGTH;
     pattern->step_pointer = 0;
 
@@ -31,6 +32,7 @@ pattern_t *pattern_init() {
 }
 
 void pattern_destruct(pattern_t *pattern) {
+    list_destruct(pattern->notes);
     free(pattern);
 }
 
